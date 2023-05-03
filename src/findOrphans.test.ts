@@ -1,12 +1,12 @@
 import { assertEquals } from "deno/testing/asserts.ts";
 
-import { findOrphan } from "./findOrphan.ts";
+import { findOrphans } from "./findOrphans.ts";
 
-Deno.test("findOrphan - no orphans", function () {
-  assertEquals(findOrphan({}), []);
+Deno.test("findOrphans - no orphans", function () {
+  assertEquals(findOrphans({}), []);
 
   assertEquals(
-    findOrphan({
+    findOrphans({
       "mod.ts": ["b.ts"],
       "b.ts": ["c.ts"],
       "c.ts": ["d.ts"],
@@ -15,9 +15,9 @@ Deno.test("findOrphan - no orphans", function () {
   );
 });
 
-Deno.test("findOrphan - orphan", function () {
+Deno.test("findOrphans - orphan", function () {
   assertEquals(
-    findOrphan({
+    findOrphans({
       "mod.ts": ["b.ts", "c.ts"],
       "b.ts": ["c.ts"],
       "d.ts": ["e.ts"],

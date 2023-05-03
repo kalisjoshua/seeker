@@ -9,6 +9,6 @@
   },
   "lint": {},
   "tasks": {
-    "test": "deno test --allow-read ."
+    "test": "deno test --allow-read --allow-run=/usr/local/bin/deno --doc ."
   }
 }

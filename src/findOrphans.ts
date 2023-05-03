@@ -1,8 +1,9 @@
 const defaultExclude = [
-  /mod\.ts$/,
+  /\bmod\.ts$/,
+  // /test\.ts$/,
 ];
 
-function findOrphan(
+function findOrphans(
   graph: Record<string, Array<string>>,
   exclude = defaultExclude,
 ) {
@@ -11,12 +12,10 @@ function findOrphan(
   const unique = new Set(deps);
   const modules = Object.keys(graph);
 
-  console.log(graph)
-
   return Array.from(modules)
     .filter((mod) =>
-      !unique.has(mod) && !exclude.every((regex) => regex.test(mod))
+      !unique.has(mod) && !exclude.some((regex) => regex.test(mod))
     );
 }
 
-export { findOrphan };
+export { findOrphans };

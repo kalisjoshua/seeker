@@ -25,7 +25,17 @@ function reset() {
   modules = [];
 }
 
-__deps.reader = (path: string) => fsMock[path];
+__deps.getDependencies = (path: string) => ({
+  [path]: {
+    "src/hasDependencies.ts": [
+      "./depA.ts",
+      "./depB.ts",
+      "./depC.ts",
+      "./depD.ts",
+    ],
+    // "src/orphan.ts": [],
+  }[path],
+} as Record<string, Array<string>>);
 __deps.resolve = (path: string) => path;
 __deps.walker = () => modules;
 
@@ -34,9 +44,9 @@ Deno.test("collectModules", function () {
 
   addModule(
     "src/",
-    "mod.ts",
+    "hasDependencies.ts",
     `
-    import * as path from "https://deno.land/std@0.184.0/path/mod.ts"
+    import * as fs from "https://deno.land/std@0.184.0/fs/mod.ts"
 
     import { depA } from "./depA.ts"
     import { depB } from "./depB.ts"
@@ -56,7 +66,7 @@ Deno.test("collectModules", function () {
 
   addModule(
     "src/",
-    "orphan.ts",
+    "depOrphan.ts",
     `
     import * as fs from "std/path/mod.ts"
 
@@ -65,7 +75,7 @@ Deno.test("collectModules", function () {
   );
 
   const exp = {
-    "src/mod.ts": [
+    "src/hasDependencies.ts": [
       "./depA.ts",
       "./depB.ts",
       "./depC.ts",
