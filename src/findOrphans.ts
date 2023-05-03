@@ -1,6 +1,6 @@
 const defaultExclude = [
   /\bmod\.ts$/,
-  // /test\.ts$/,
+  /test\.ts$/,
 ];
 
 function findOrphans(

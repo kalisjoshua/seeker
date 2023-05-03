@@ -48,16 +48,15 @@ function collectModules(
   dirs: Array<string> | string,
   options?: WalkOptions,
 ): Record<string, Array<string>> {
-  const files = (Array.isArray(dirs) ? dirs : [dirs])
-    .map((dir) => __deps.walker(__deps.resolve(dir), options)).flat();
-
-  return files
-    .map(({ path }) => ({
-      deps: __deps.getDependencies(path)[path] || [],
-      path,
-    }))
-    .filter(({ deps }) => deps.length)
-    .reduce((acc, { deps, path }) => ({ ...acc, [path]: deps }), {});
+  return Object.fromEntries(
+    (Array.isArray(dirs) ? dirs : [dirs])
+      .flatMap((dir) => __deps.walker(__deps.resolve(dir), options))
+      .map(({ path }) => [
+        path,
+        __deps.getDependencies(path)[path] || [],
+      ])
+      .filter(([_, { length }]) => length),
+  );
 }
 
 export { __deps, collectModules };
