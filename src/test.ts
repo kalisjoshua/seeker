@@ -1,9 +1,13 @@
-import { assertEquals } from "deno/testing/asserts.ts";
+import { assertEquals, assertMatch } from "deno/testing/asserts.ts";
 
 import { report } from "./mod.ts";
 
 Deno.test("check for circular dependencies", function () {
-  const actual = report(".");
+  const { orphans = [], ...rest } = report(".");
+  const [found = ""] = orphans;
 
-  assertEquals(actual, {});
+  assertEquals(orphans.length, 1);
+  assertMatch(found, /_for_unit_tests_only\.ts$/);
+
+  assertEquals(rest, {});
 });

@@ -1,30 +1,42 @@
-function findCircular(paths: Record<string, Array<string>>) {
-  function recur(
-    depChain: Array<string>,
-    depList: Array<string>,
-  ): Array<string> {
-    if (!depList.length) return [];
+type Tree = Record<string, Array<string>>;
 
-    return depList
-      .flatMap((dependency) =>
-        depChain.includes(dependency)
-          ? depChain.concat(dependency)
-          : recur(depChain.concat(dependency), paths[dependency] || [])
-      );
-  }
+function findCircular(tree: Tree) {
+  const startingValue: Array<Array<string>> = [];
 
-  return Object.entries(paths)
+  return Object.entries(tree)
     .reduce((acc, [module, depList]) => {
-      const loop = recur([module], depList).slice(0, -1);
-      const prev = acc.at(-1);
-      const repeat = prev?.includes(module);
+      const loop = simplify(traverse([module], depList, tree));
+      const priorElement = acc.at(-1);
+      const isUniqueLoop = !priorElement || !priorElement?.includes(loop[0]);
 
-      if (loop.length && (!prev || !repeat)) {
+      if (loop.length && isUniqueLoop) {
         acc.push(loop);
       }
 
       return acc;
-    }, [] as Array<Array<string>>);
+    }, startingValue);
+}
+
+function simplify(loop: Array<string>) {
+  const last = loop.pop();
+
+  return last ? loop.slice(loop.indexOf(last)) : [];
+}
+
+// recurse over the tree
+function traverse(
+  depChain: Array<string>,
+  depList: Array<string>,
+  tree: Tree,
+): Array<string> {
+  if (!depList.length) return [];
+
+  return depList
+    .flatMap((dependency) =>
+      depChain.includes(dependency)
+        ? depChain.concat(dependency)
+        : traverse(depChain.concat(dependency), tree[dependency] || [], tree)
+    );
 }
 
 export { findCircular };

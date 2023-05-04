@@ -33,7 +33,7 @@ __deps.getDependencies = (path: string) => ({
       "./depC.ts",
       "./depD.ts",
     ],
-    // "src/orphan.ts": [],
+    "src/orphan.ts": [],
   }[path],
 } as Record<string, Array<string>>);
 __deps.resolve = (path: string) => path;
@@ -66,11 +66,10 @@ Deno.test("collectModules", function () {
 
   addModule(
     "src/",
-    "depOrphan.ts",
+    "orphan.ts",
     `
-    import * as fs from "std/path/mod.ts"
-
-    // no local imports; should be filtered out
+    // this file is not imported by any other module
+    const thoughts = "All by myself.";
   `,
   );
 
@@ -81,6 +80,7 @@ Deno.test("collectModules", function () {
       "./depC.ts",
       "./depD.ts",
     ],
+    "src/orphan.ts": [],
   };
 
   assertEquals(collectModules("."), exp);

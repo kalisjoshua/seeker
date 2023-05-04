@@ -17,9 +17,8 @@ const __deps = {
 
 /** Create a flat map/record/tree of the modules and their local dependencies;
  * the resulting map will be only one level deep, a key/value pairing of module
- * to a list of dependencies found within. Modules without dependencies will be
- * excluded in the returned value. Only one map will be returned, if multiple
- * source directories are initially provided all dependencies will be joined.
+ * to a list of dependencies found within. Only one map will be returned, if
+ * multiple source directories are provided all dependencies will be joined.
  *
  * @param {Array<string> | string} dirs - The directory/directories to search
  * for modules within.
@@ -54,8 +53,7 @@ function collectModules(
       .map(({ path }) => [
         path,
         __deps.getDependencies(path)[path] || [],
-      ])
-      .filter(([_, { length }]) => length),
+      ]),
   );
 }
 

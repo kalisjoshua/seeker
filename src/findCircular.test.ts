@@ -73,3 +73,23 @@ Deno.test("findCircular - deep circular deps", function () {
     ],
   );
 });
+
+Deno.test("findCircular - small loop hidden deep", function () {
+  assertEquals(
+    findCircular(
+      {
+        "a.ts": ["b.ts"],
+        "b.ts": ["c.ts"],
+        "c.ts": ["d.ts"],
+        "d.ts": ["e.ts"],
+        "e.ts": ["d.ts"],
+      },
+    ),
+    [
+      [
+        "d.ts",
+        "e.ts",
+      ],
+    ],
+  );
+});
