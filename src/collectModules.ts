@@ -1,5 +1,5 @@
-import { WalkOptions, walkSync } from "https://deno.land/std@0.184.0/fs/mod.ts";
-import { resolve } from "https://deno.land/std@0.184.0/path/mod.ts";
+import { WalkOptions, walkSync } from "deno.json//fs/mod.ts";
+import { resolve } from "deno.json//path/mod.ts";
 
 import { getDependencies } from "./getDependencies.ts";
 
@@ -15,10 +15,10 @@ const __deps = {
     Array.from(walkSync(dir, options)),
 };
 
-/** Create a flat map/record/tree of the modules and their local dependencies;
- * the resulting map will be only one level deep, a key/value pairing of module
- * to a list of dependencies found within. Only one map will be returned, if
- * multiple source directories are provided all dependencies will be joined.
+/** Create a graph of the modules and their *local* dependencies; the resulting
+ * graph will be only one level deep, a key/value pairing of module to a array
+ * of dependencies. A combined graph will be return if multiple directories are
+ * supplied as locations of modules.
  *
  * @param {Array<string> | string} dirs - The directory/directories to search
  * for modules within.
@@ -26,7 +26,7 @@ const __deps = {
  *
  * @example
  * ``` typescript
- * import { collectModules } from "seeker/collectModules.ts"
+ * import { collectModules } from "https://api.deno.land/webhook/gh/seeker@1.0.0/collectModules.ts"
  *
  * // single directory
  * const result = collectModules("./src")
@@ -37,10 +37,6 @@ const __deps = {
  *   "./_tools",
  *   "./lib",
  * ])
- *
- * // If the modules found have dependencies the return value
- * // will be a simple (non-nested) map/record/tree of the
- * // key/value relationships.
  * ```
  */
 function collectModules(

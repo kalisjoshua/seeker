@@ -3,39 +3,51 @@ import { stub } from "deno.json//testing/mock.ts";
 
 import { __deps, report } from "./report.ts";
 
-let expected: {
-  circular?: ReturnType<typeof __deps.findCircular>;
-  orphans?: ReturnType<typeof __deps.findOrphans>;
-} = {};
+const setStubValues = function () {
+  const ORPHANS = ["testing value"];
+  const CIRCULAR = [ORPHANS];
 
-stub(__deps, "findCircular", () => (expected.circular || []));
-stub(__deps, "findOrphans", () => (expected.orphans || []));
+  const expected: {
+    circular?: ReturnType<typeof __deps.findCircular>;
+    orphans?: ReturnType<typeof __deps.findOrphans>;
+  } = {};
+
+  stub(__deps, "findCircular", () => (expected.circular || []));
+  stub(__deps, "findOrphans", () => (expected.orphans || []));
+
+  function setStubValues(loop: boolean, lonely: boolean) {
+    expected.circular = loop ? CIRCULAR : [];
+    expected.orphans = lonely ? ORPHANS : [];
+
+    return expected;
+  }
+
+  return setStubValues;
+}();
 
 Deno.test("report - no values", function () {
-  assertEquals(report("."), {});
+  setStubValues(false, false);
+
+  const { circular, orphans } = report(".");
+
+  assertEquals(circular.length, 0);
+  assertEquals(orphans.length, 0);
 });
 
-Deno.test("report - circular", function () {
-  expected = {
-    circular: [["testing value"]],
-  };
+Deno.test("report - both values", function () {
+  const expected = setStubValues(true, true);
 
   assertEquals(report("."), expected);
 });
 
-Deno.test("report - orphans", function () {
-  expected = {
-    orphans: ["testing value"],
-  };
+Deno.test("report - only circular", function () {
+  const expected = setStubValues(true, false);
 
   assertEquals(report("."), expected);
 });
 
-Deno.test("report - both", function () {
-  expected = {
-    circular: [["testing value"]],
-    orphans: ["testing value"],
-  };
+Deno.test("report - only orphans", function () {
+  const expected = setStubValues(false, true);
 
   assertEquals(report("."), expected);
 });

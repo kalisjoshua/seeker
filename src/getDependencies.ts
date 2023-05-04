@@ -33,6 +33,7 @@ function getDependencies(path: string, includeExternal = false) {
     }, record);
 }
 
+// use `deno info --json [path]` to get dependency graph info
 function getModules(path: string) {
   const options = { args: ["info", "--json", path] };
   const command = new Deno.Command(Deno.execPath(), options);

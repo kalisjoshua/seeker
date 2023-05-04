@@ -1,6 +1,8 @@
-type Tree = Record<string, Array<string>>;
-
-function findCircular(tree: Tree) {
+/** Search through the graph, following imports, to find the dependencies that
+ * create circular relationships. Returns an array of results; the results are
+ * arrays of paths showing circular dependency chains.
+ */
+function findCircular(tree: Record<string, Array<string>>) {
   const startingValue: Array<Array<string>> = [];
 
   return Object.entries(tree)
@@ -17,6 +19,9 @@ function findCircular(tree: Tree) {
     }, startingValue);
 }
 
+// reduce the list of modules (string/path) to the minimal set that shows
+// circular dependency
+// e.g. [a, b, c, d, b] should be reducecd to [b, c, d]
 function simplify(loop: Array<string>) {
   const last = loop.pop();
 
@@ -27,7 +32,7 @@ function simplify(loop: Array<string>) {
 function traverse(
   depChain: Array<string>,
   depList: Array<string>,
-  tree: Tree,
+  tree: Record<string, Array<string>>,
 ): Array<string> {
   if (!depList.length) return [];
 
