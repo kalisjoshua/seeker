@@ -26,7 +26,7 @@ const __deps = {
  *
  * @example
  * ``` typescript
- * import { collectModules } from "https://api.deno.land/webhook/gh/seeker@1.0.0/collectModules.ts"
+ * import { collectModules } from "https://deno.land/x/seeker@1.0.0/collectModules.ts"
  *
  * // single directory
  * const result = collectModules("./src")

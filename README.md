@@ -14,7 +14,7 @@ Seeker can be used in unit testing to check for violations and exceptions.
 ```ts
 import { assertEquals } from "std_lib/testing/asserts.ts";
 
-import { report } from "https://api.deno.land/webhook/gh/seeker@1.0.0/mod.ts";
+import { report } from "https://deno.land/x/seeker@1.0.0/mod.ts";
 
 Deno.test("dependency graph inspection", function () {
   const { circular, orphans } = report("..");
