@@ -1,4 +1,4 @@
-import { assertEquals, assertMatch } from "deno/testing/asserts.ts";
+import { assertEquals, assertMatch } from "deno.json//testing/asserts.ts";
 
 import { report } from "./mod.ts";
 
