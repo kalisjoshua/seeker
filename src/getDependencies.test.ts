@@ -1,5 +1,4 @@
-import { assertEquals, assertThrows } from "deno.json//testing/asserts.ts";
-import { stub } from "deno.json//testing/mock.ts";
+import { assertEquals, assertThrows, stub } from "../deps.ts";
 
 import { getDependencies } from "./getDependencies.ts";
 

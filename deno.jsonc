@@ -4,12 +4,8 @@
     "noImplicitOverride": true
   },
   "fmt": {},
-  "imports": {
-    "deno.json//": "https://deno.land/std@0.184.0/"
-  },
   "lint": {},
   "tasks": {
-    // "test": "deno test --allow-read --allow-run=/usr/local/bin/deno --doc ./src"
-    "test": "deno test --allow-read --allow-run=/usr/local/bin/deno ./src"
+    "test": "deno test --allow-read --allow-run=/usr/local/bin/deno --doc"
   }
 }

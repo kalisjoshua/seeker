@@ -1,5 +1,4 @@
-import { WalkOptions, walkSync } from "deno.json//fs/mod.ts";
-import { resolve } from "deno.json//path/mod.ts";
+import { resolve, WalkOptions, walkSync } from "../deps.ts";
 
 import { getDependencies } from "./getDependencies.ts";
 

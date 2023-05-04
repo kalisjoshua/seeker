@@ -1,4 +1,4 @@
-import { assertEquals } from "deno.json//testing/asserts.ts";
+import { assertEquals } from "../deps.ts";
 
 import { findCircular } from "./findCircular.ts";
 

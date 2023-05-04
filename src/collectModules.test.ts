@@ -1,5 +1,4 @@
-import { WalkEntry } from "deno.json//fs/walk.ts";
-import { assertEquals } from "deno.json//testing/asserts.ts";
+import { assertEquals, WalkEntry } from "../deps.ts";
 
 import { __deps, collectModules } from "./collectModules.ts";
 

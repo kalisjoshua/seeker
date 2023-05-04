@@ -1,4 +1,4 @@
-import { assertEquals } from "deno.json//testing/asserts.ts";
+import { assertEquals } from "../deps.ts";
 
 import { findOrphans } from "./findOrphans.ts";
 
