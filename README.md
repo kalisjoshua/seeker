@@ -48,7 +48,7 @@ export function send(name: string) {
 import { GREETING } from "./mod.ts";
 
 export function libA(name: string) {
-  console.log(`${GREATING} ${name}!`);
+  console.log(`${GREETING} ${name}!`);
 }
 ```
 
